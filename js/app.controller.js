@@ -8,6 +8,7 @@ window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onDeleteLocation = onDeleteLocation;
 window.onMapClick = onMapClick;
+window.onGoLocation = onGoLocation;
 
 
 function onInit() {
@@ -67,13 +68,17 @@ function onPanTo() {
     mapService.panTo(35.6895, 139.6917);
 }
 
-function onGoLocation(locationId){
+function onGoLocation(loc){
+    mapService.initMap(loc.pos.lat , loc.pos.lng)
+console.log(loc.pos.lng);
+
 }
 
 
 function onDeleteLocation(locationId){
     locService.removeLoc(locationId)
     renderLocation()
+    mapService.initMap()
 }
 
 function renderLocation(locations){
@@ -95,7 +100,7 @@ function renderLocation(locations){
             <td> ${location.createdAt}</td>
             <td> ${location.update}</td>
             <td>
-            <button onclick='onGoLocation(${location.pos})'> Go </button>
+            <button onclick='onGoLocation(${JSON.stringify(location)})'> Go </button>
             <button onclick="onDeleteLocation('${location.id}')"> Delete Location </button>
         </td></tr>`
     })

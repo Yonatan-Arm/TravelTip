@@ -7,7 +7,8 @@ export const mapService = {
     addMarker,
     panTo,
     goLocation,
-    getLocationClicked
+    getLocationClicked,
+    renderMark
 }
 
 var gMap;
@@ -25,7 +26,8 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 zoom: 16
             })
             google.maps.event.addListener(gMap, 'click', onMapClick)
-            addMarker(getCurrentPosition)
+            renderMark()
+            
 
         })
 }
@@ -51,6 +53,14 @@ function addMarker(loc = getCurrentPosition ) {
     });
 
     return marker;
+}
+
+
+function renderMark(){
+    let locations = locService.getLocs()
+    locations.map(location => {
+        addMarker(location.pos)
+    })
 }
 
 function panTo(lat, lng) {
