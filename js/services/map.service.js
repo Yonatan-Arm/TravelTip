@@ -1,3 +1,4 @@
+import  { storageService } from './local-storage.js'
 
 
 export const mapService = {
@@ -5,8 +6,10 @@ export const mapService = {
     addMarker,
     panTo
 }
-
+//  save(KEY , 'BLABLA')
 var gMap;
+const KEY ='mapLocation'
+
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
     console.log('InitMap');
