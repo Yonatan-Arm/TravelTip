@@ -28,7 +28,7 @@
     order:1;
 }
 
-.table {
-    border: 1px solid;
+.table td{
+    border: 2px solid;
 
 }

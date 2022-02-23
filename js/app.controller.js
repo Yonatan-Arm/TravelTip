@@ -12,12 +12,14 @@ function onInit() {
     var locations = locService.getLocs();
     mapService.initMap()
         .then(() => {
-
+             var locations=locService.getLocs()
+            renderLocation(locations)
+           
             console.log('Map is ready');
         })
         .catch(() => console.log('Error: cannot init map'));
-
-    renderLocation(locations)
+        
+ 
 }
 
 
@@ -35,10 +37,11 @@ function onAddMarker() {
 }
 
 function onGetLocs() {
-    locService.getLocs()
-        .then(locs => {
-            console.log('Locations:', locs)
-            document.querySelector('.locs').innerText = JSON.stringify(locs)
+var adress = document.getElementById('search').value;
+    mapService.goLocation(adress)
+        .then(locs=> {
+            // console.log('Locations:', locs)
+            // // document.querySelector('.locs').innerText = JSON.stringify(locs)
         })
 }
 
@@ -86,8 +89,8 @@ function renderLocation(locations) {
     locations.map(location => {
         strHtml += `<tbody><tr><td> ${i} </td>
             <td>  ${location.name} </td>
-            <td> ${location.pos.let}</td>
-            <td> ${new Date(location.createdAt).toLocaleDateString("en-US")}</td>
+            <td> lat: ${location.pos.lat} ,lng :${location.pos.lng}</td>
+            <td> ${location.createdAt}</td>
             <td> ${location.update}</td>
             <td>
             <button onclick='onGoLocation(${location.pos})'> Go </button>
@@ -99,6 +102,4 @@ function renderLocation(locations) {
     elLocations.innerHTML = strHtml
 
 }
-
-
 
