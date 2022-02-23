@@ -6,19 +6,14 @@ window.onAddMarker = onAddMarker;
 window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
+window.onDeleteLocation = onDeleteLocation;
 
 
 function onInit() {
     mapService.initMap()
-        .then(() => {
-             var locations=locService.getLocs()
-            renderLocation(locations)
-           
-            console.log('Map is ready');
-        })
+        .then(renderLocation)
         .catch(() => console.log('Error: cannot init map'));
         
- 
 }
 
 
@@ -38,10 +33,7 @@ function onAddMarker() {
 function onGetLocs() {
 var adress = document.getElementById('search').value;
     mapService.goLocation(adress)
-        .then(locs=> {
-            // console.log('Locations:', locs)
-            // // document.querySelector('.locs').innerText = JSON.stringify(locs)
-        })
+        .then(renderLocation)
 }
 
 function onGetUserPos() {
@@ -62,37 +54,38 @@ function onPanTo() {
     mapService.panTo(35.6895, 139.6917);
 }
 
-function onGoLocation(){
-
-
-
+function onGoLocation(locationId){
 }
 
 
-function onDeleteLocation(locationIdx){
-
+function onDeleteLocation(locationId){
+    locService.removeLoc(locationId)
+    renderLocation()
+    
 
 }
 
 function renderLocation(locations){
+    if(!locations)  var locations=locService.getLocs()
     let elLocations=document.querySelector('.locations-table')
     var strHtml=` <table class = "table">
-   <tr> <th> id </th>
+    <thead>
+    <th> id </th>
     <th> Name </th>
     <th> pos </th>
     <th> createdAt </th>
     <th> update </th>
     <th> Actions </th>
-    </tr>`
+    </thead><tbody>`
     locations.map(location => {
-        strHtml += `<tbody><tr><td> ${location.id} </td>
+        strHtml += `<tr><td> ${location.id} </td>
             <td>  ${location.name} </td>
             <td> lat: ${location.pos.lat} ,lng :${location.pos.lng}</td>
             <td> ${location.createdAt}</td>
             <td> ${location.update}</td>
             <td>
             <button onclick='onGoLocation(${location.pos})'> Go </button>
-            <button onclick='onDeleteLocation(${location.id})'> Delete Location </button>
+            <button onclick="onDeleteLocation('${location.id}')"> Delete Location </button>
         </td></tr>`
 
     })
