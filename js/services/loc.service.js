@@ -20,6 +20,21 @@ function getLocs() {
     });
 }
 
+function createNewLoc(name, Let, lng) {
+    var time = Date.now()
+    var loc = {
+        id: Math.random().toString(16).slice(2),
+        name: name,
+        let: Let,
+        lng: lng,
+        createdAt: time,
+        update: null
+    }
+    gLocs.push(loc)
+    storageService.save(KEY, gLocs)
+}
+
+
 function getLocById(id){
     var locIdx = gLocs.findIndex(loc => loc.id === id)
     return gLocs[locIdx];
