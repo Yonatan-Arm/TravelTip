@@ -7,7 +7,13 @@ const KEY = 'mapLocation'
 const GEO_URL = 'https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=YOUR_API_KEY'
 const API_KEY = 'AIzaSyDVaWRaXe4Fxq65Ws1-ZcA7fhz2ENG2L1g'
 var selectedLocIdx;
-var gLocs = (storageService.load(KEY).length) ? storageService.load(KEY) : [];
+var gLocs = []
+createNewLoc('coding academy',32.0879749,34.8030999)
+createNewLoc('The Electric Cave',32.0929095,34.7713273)
+if(storageService.load(KEY).length) {
+    gLocs = storageService.load(KEY)
+} 
+
 
 const locs = [
     { name: 'Greatplace', lat: 32.047104, lng: 34.832384 },

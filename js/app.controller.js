@@ -9,14 +9,15 @@ window.onGetUserPos = onGetUserPos;
 
 
 function onInit() {
+    var locations = locService.getLocs();
     mapService.initMap()
         .then(() => {
-           
+
             console.log('Map is ready');
         })
         .catch(() => console.log('Error: cannot init map'));
-        
- renderLocation(locations)
+
+    renderLocation(locations)
 }
 
 
@@ -47,7 +48,7 @@ function onGetUserPos() {
             console.log('User position is:', pos.coords);
             document.querySelector('.user-pos').innerText =
                 `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`
-                mapService.initMap(pos.coords.latitude,pos.coords.longitude)
+            mapService.initMap(pos.coords.latitude, pos.coords.longitude)
         })
         .catch(err => {
             console.log('err!!!', err);
@@ -59,21 +60,22 @@ function onPanTo() {
     mapService.panTo(35.6895, 139.6917);
 }
 
-function onGoLocation(){
+function onGoLocation() {
 
 
 
 }
 
 
-function onDeleteLocation(locationIdx){
+function onDeleteLocation(locationIdx) {
 
 
 }
 
-function renderLocation(locations){
-    let elLocations=document.querySelector('.locations-table')
-    var strHtml=` <table class = "table">
+function renderLocation(locations) {
+    var i = 1;
+    let elLocations = document.querySelector('.locations-table')
+    var strHtml = ` <table class = "table">
    <tr> <th> id </th>
     <th> Name </th>
     <th> pos </th>
@@ -82,16 +84,16 @@ function renderLocation(locations){
     <th> Actions </th>
     </tr>`
     locations.map(location => {
-        strHtml += `<tbody><tr><td> ${location.id} </td>
+        strHtml += `<tbody><tr><td> ${i} </td>
             <td>  ${location.name} </td>
-            <td> ${location.pos}</td>
-            <td> ${location.createdAt}</td>
+            <td> ${location.pos.let}</td>
+            <td> ${new Date(location.createdAt).toLocaleDateString("en-US")}</td>
             <td> ${location.update}</td>
             <td>
             <button onclick='onGoLocation(${location.pos})'> Go </button>
             <button onclick='onDeleteLocation(${location.id})'> Delete Location </button>
         </td></tr>`
-
+            i++
     })
     strHtml += '</tbody></table>'
     elLocations.innerHTML = strHtml
@@ -100,13 +102,3 @@ function renderLocation(locations){
 
 
 
-var locations= [{  id: '1',
-    name:  'Home',
-    pos: 'lat : 31 , lng : 34',
-    createdAt: Date.now(),
-    update: 'AA'},
-{  id: '2',
-    name:  'Work',
-    pos: 'lat : 31.2 , lng : 34.2',
-    createdAt:  Date.now(),
-    update: 'AA'}]

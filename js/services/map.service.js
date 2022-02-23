@@ -26,11 +26,12 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
 
         })
 }
-serchLoc('לכיש 15 גבעתיים');
+serchLoc('המערה החשמלית');
 function serchLoc(address) {
     return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${API_KEY}`)
         .then(res => {
             getCurrentPosition = res.data.results[0].geometry.location
+            console.log(getCurrentPosition);
             initMap(getCurrentPosition.lat,getCurrentPosition.lng)
            
         })
