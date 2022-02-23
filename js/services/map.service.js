@@ -33,6 +33,7 @@ function goLocation(address) {
     return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${API_KEY}`)
         .then(res => {
             getCurrentPosition = res.data.results[0].geometry.location
+            console.log(getCurrentPosition);
             initMap(getCurrentPosition.lat,getCurrentPosition.lng)
             locService.createNewLoc(address,getCurrentPosition.lat,getCurrentPosition.lng)
         })
