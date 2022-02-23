@@ -14,7 +14,7 @@ const locs = [
     { name: 'q', lat: 32.047201, lng: 34.832581 }
 ]
 
-function getLocs() {
+function getLoc() {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             resolve(locs);

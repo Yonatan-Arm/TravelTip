@@ -21,9 +21,11 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 zoom: 15
             })
             google.maps.event.addListener(gMap , 'click', onMapClick)
+            addMarker(getCurrentPosition)
            
         })
 }
+
 
 function addMarker(loc) {
     var marker = new google.maps.Marker({
@@ -31,6 +33,7 @@ function addMarker(loc) {
         map: gMap,
         title: 'Hello World!'
     });
+    
     return marker;
 }
 
@@ -45,13 +48,15 @@ function onMapClick(map){
     var lng = map.latLng.lng();
     getCurrentPosition = {lat ,lng}
     showLocation(getCurrentPosition)
+   
+
 }
 
 
 
 function showLocation(position) {
-    console.log(position);
     initMap(position.lat, position.lng);
+   
 
 }
 
