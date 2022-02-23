@@ -21,7 +21,8 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 center: { lat, lng },
                 zoom: 15
             })
-            console.log('Map!', gMap);
+            google.maps.event.addListener(gMap , 'click', onMapClick)
+           
         })
 }
 
@@ -39,6 +40,16 @@ function panTo(lat, lng) {
     gMap.panTo(laLatLng);
 }
 
+
+function onMapClick(map){
+    console.log('hi');
+    var lat = map.latLng.lat();
+    var lng = map.latLng.lng();
+    console.log(lat , lng);
+
+
+    
+}
 
 
 function _connectGoogleApi() {
