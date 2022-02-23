@@ -25,7 +25,7 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 zoom: 16
             })
             google.maps.event.addListener(gMap, 'click', onMapClick)
-            addMarker({lat,lng})
+            addMarker(getCurrentPosition)
 
         })
 }
@@ -53,7 +53,6 @@ function addMarker(loc = getCurrentPosition ) {
 }
 
 function panTo(lat, lng) {
-    getCurrentPosition = { lat, lng }
     var laLatLng = new google.maps.LatLng(lat, lng);
     gMap.panTo(laLatLng);
 }
@@ -65,7 +64,6 @@ function getLocationClicked(pos) {
     return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${pos.lat},${pos.lng}&key=${API_KEY}`)
         .then(res => {
             getCurrentPosition = res.data.results[0].geometry.location
-            console.log(getCurrentPosition);
             initMap(getCurrentPosition.lat,getCurrentPosition.lng)
             locService.createNewLoc(res.data.results[0]['formatted_address'],getCurrentPosition.lat,getCurrentPosition.lng)
         })
