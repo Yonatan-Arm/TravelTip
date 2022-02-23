@@ -43,6 +43,7 @@ function goLocation(address) {
 
 
 function addMarker(loc = getCurrentPosition ) {
+    
     var marker = new google.maps.Marker({
         position: loc,
         map: gMap,
