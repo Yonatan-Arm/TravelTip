@@ -7,6 +7,7 @@ window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onDeleteLocation = onDeleteLocation;
+window.onGoLocation = onGoLocation;
 
 
 function onInit() {
@@ -14,7 +15,7 @@ function onInit() {
     mapService.initMap()
         .then(renderLocation)
         .catch(() => console.log('Error: cannot init map'));
-        
+
 }
 
 
@@ -32,7 +33,7 @@ function onAddMarker() {
 }
 
 function onGetLocs() {
-var adress = document.getElementById('search').value;
+    var adress = document.getElementById('search').value;
     mapService.goLocation(adress)
         .then(renderLocation)
 }
@@ -44,6 +45,7 @@ function onGetUserPos() {
             document.querySelector('.user-pos').innerText =
                 `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`
             mapService.initMap(pos.coords.latitude, pos.coords.longitude)
+            mapService.addMarker(pos.coords)
         })
         .catch(err => {
             console.log('err!!!', err);
@@ -55,43 +57,27 @@ function onPanTo() {
     mapService.panTo(35.6895, 139.6917);
 }
 
-<<<<<<< HEAD
-function onGoLocation(locationId){
+function onGoLocation(loc) {
+    mapService.initMap(loc.pos.lat , loc.pos.lng)
+console.log(loc.pos.lng);
+
+
 }
 
 
-function onDeleteLocation(locationId){
+function onDeleteLocation(locationId) {
     locService.removeLoc(locationId)
     renderLocation()
-    
-
-}
-
-function renderLocation(locations){
-    if(!locations)  var locations=locService.getLocs()
-    let elLocations=document.querySelector('.locations-table')
-    var strHtml=` <table class = "table">
-    <thead>
-    <th> id </th>
-=======
-function onGoLocation() {
-
-
-
-}
-
-
-function onDeleteLocation(locationIdx) {
 
 
 }
 
 function renderLocation(locations) {
-    var i = 1;
+    if(!locations) var locations = locService.getLocs(); 
+   
     let elLocations = document.querySelector('.locations-table')
     var strHtml = ` <table class = "table">
    <tr> <th> id </th>
->>>>>>> f77fda50d90ea21781ecdfcca60776638328ce11
     <th> Name </th>
     <th> pos </th>
     <th> createdAt </th>
@@ -99,23 +85,19 @@ function renderLocation(locations) {
     <th> Actions </th>
     </thead><tbody>`
     locations.map(location => {
-<<<<<<< HEAD
-        strHtml += `<tr><td> ${location.id} </td>
-=======
-        strHtml += `<tbody><tr><td> ${i} </td>
->>>>>>> f77fda50d90ea21781ecdfcca60776638328ce11
+        strHtml += `<tbody><tr><td> ${location.id} </td>
             <td>  ${location.name} </td>
             <td> lat: ${location.pos.lat} ,lng :${location.pos.lng}</td>
             <td> ${location.createdAt}</td>
             <td> ${location.update}</td>
             <td>
-            <button onclick='onGoLocation(${location.pos})'> Go </button>
+            <button onclick='onGoLocation(${JSON.stringify(location)})'> Go </button>
             <button onclick="onDeleteLocation('${location.id}')"> Delete Location </button>
         </td></tr>`
-            i++
     })
     strHtml += '</tbody></table>'
     elLocations.innerHTML = strHtml
 
 }
 
+// ${location.pos}
