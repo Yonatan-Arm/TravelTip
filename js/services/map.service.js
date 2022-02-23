@@ -6,16 +6,15 @@ export const mapService = {
     addMarker,
     panTo
 }
-//  save(KEY , 'BLABLA')
+
 var gMap;
+var getCurrentPosition;
 const KEY ='mapLocation'
 
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
-    console.log('InitMap');
     return _connectGoogleApi()
         .then(() => {
-            console.log('google available');
             gMap = new google.maps.Map(
                 document.querySelector('#map'), {
                 center: { lat, lng },
@@ -42,13 +41,20 @@ function panTo(lat, lng) {
 
 
 function onMapClick(map){
-    console.log('hi');
     var lat = map.latLng.lat();
     var lng = map.latLng.lng();
-    console.log(lat , lng);
+    getCurrentPosition = {lat ,lng}
+    showLocation(getCurrentPosition)
+}
 
 
-    
+
+
+
+function showLocation(position) {
+    console.log(position);
+    initMap(position.lat, position.lng);
+
 }
 
 
