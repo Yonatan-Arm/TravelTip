@@ -1,10 +1,12 @@
 import { storageService } from './local-storage.js'
+import { locService } from './loc.service.js'
 
 
 export const mapService = {
     initMap,
     addMarker,
-    panTo
+    panTo,
+    goLocation
 }
 
 var gMap;
@@ -26,13 +28,13 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
 
         })
 }
-serchLoc('לכיש 15 גבעתיים');
-function serchLoc(address) {
+
+function goLocation(address) {
     return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${API_KEY}`)
         .then(res => {
             getCurrentPosition = res.data.results[0].geometry.location
             initMap(getCurrentPosition.lat,getCurrentPosition.lng)
-           
+            locService.createNewLoc(address,getCurrentPosition.lat,getCurrentPosition.lng)
         })
 
 }
@@ -58,7 +60,7 @@ function onMapClick(map) {
     var lat = map.latLng.lat();
     var lng = map.latLng.lng();
     getCurrentPosition = { lat, lng }
-    // showLocation(getCurrentPosition)
+    panTo(getCurrentPosition)
     addMarker()
 
 }

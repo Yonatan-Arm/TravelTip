@@ -1,5 +1,6 @@
 export const locService = {
-    getLocs
+    getLocs,
+    createNewLoc
 }
 
 import { storageService } from './local-storage.js'
@@ -8,7 +9,6 @@ const GEO_URL = 'https://maps.googleapis.com/maps/api/geocode/json?address=1600+
 const API_KEY = 'AIzaSyDVaWRaXe4Fxq65Ws1-ZcA7fhz2ENG2L1g'
 var selectedLocIdx;
 var gLocs = (storageService.load(KEY).length) ? storageService.load(KEY) : [];
-
 const locs = [
     { name: 'Greatplace', lat: 32.047104, lng: 34.832384 },
     { name: 'q', lat: 32.047201, lng: 34.832581 }
@@ -23,13 +23,12 @@ function getLoc() {
     });
 }
 
-function createNewLoc(name, Let, lng) {
+function createNewLoc(name,lat , lng) {
     var time = Date.now()
     var loc = {
         id: Math.random().toString(16).slice(2),
         name: name,
-        pos:{let: Let,
-            lng: lng},
+        pos : {lat, lng},
         createdAt: time,
         update: null
     }

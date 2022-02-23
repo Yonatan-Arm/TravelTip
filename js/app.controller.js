@@ -11,12 +11,14 @@ window.onGetUserPos = onGetUserPos;
 function onInit() {
     mapService.initMap()
         .then(() => {
+             var locations=locService.getLocs()
+            renderLocation(locations)
            
             console.log('Map is ready');
         })
         .catch(() => console.log('Error: cannot init map'));
         
- renderLocation(locations)
+ 
 }
 
 
@@ -34,10 +36,11 @@ function onAddMarker() {
 }
 
 function onGetLocs() {
-    locService.getLocs()
-        .then(locs => {
-            console.log('Locations:', locs)
-            document.querySelector('.locs').innerText = JSON.stringify(locs)
+var adress = document.getElementById('search').value;
+    mapService.goLocation(adress)
+        .then(locs=> {
+            // console.log('Locations:', locs)
+            // // document.querySelector('.locs').innerText = JSON.stringify(locs)
         })
 }
 
@@ -84,7 +87,7 @@ function renderLocation(locations){
     locations.map(location => {
         strHtml += `<tbody><tr><td> ${location.id} </td>
             <td>  ${location.name} </td>
-            <td> ${location.pos}</td>
+            <td> lat: ${location.pos.lat} ,lng :${location.pos.lng}</td>
             <td> ${location.createdAt}</td>
             <td> ${location.update}</td>
             <td>
@@ -98,15 +101,3 @@ function renderLocation(locations){
 
 }
 
-
-
-var locations= [{  id: '1',
-    name:  'Home',
-    pos: 'lat : 31 , lng : 34',
-    createdAt: Date.now(),
-    update: 'AA'},
-{  id: '2',
-    name:  'Work',
-    pos: 'lat : 31.2 , lng : 34.2',
-    createdAt:  Date.now(),
-    update: 'AA'}]
