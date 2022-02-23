@@ -49,8 +49,6 @@ function onMapClick(map){
 
 
 
-
-
 function showLocation(position) {
     console.log(position);
     initMap(position.lat, position.lng);
