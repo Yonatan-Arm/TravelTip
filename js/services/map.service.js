@@ -6,7 +6,8 @@ export const mapService = {
     initMap,
     addMarker,
     panTo,
-    goLocation
+    goLocation,
+    getLocationClicked
 }
 
 var gMap;
@@ -52,17 +53,22 @@ function addMarker(loc = getCurrentPosition ) {
 }
 
 function panTo(lat, lng) {
+    getCurrentPosition = { lat, lng }
     var laLatLng = new google.maps.LatLng(lat, lng);
     gMap.panTo(laLatLng);
 }
 
 
-function onMapClick(map) {
-    var lat = map.latLng.lat();
-    var lng = map.latLng.lng();
-    getCurrentPosition = { lat, lng }
-    panTo(getCurrentPosition)
-    addMarker()
+
+
+function getLocationClicked(pos) {
+    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${pos.lat},${pos.lng}&key=${API_KEY}`)
+        .then(res => {
+            getCurrentPosition = res.data.results[0].geometry.location
+            console.log(getCurrentPosition);
+            initMap(getCurrentPosition.lat,getCurrentPosition.lng)
+            locService.createNewLoc(res.data.results[0]['formatted_address'],getCurrentPosition.lat,getCurrentPosition.lng)
+        })
 
 }
 

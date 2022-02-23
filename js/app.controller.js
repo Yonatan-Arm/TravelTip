@@ -7,6 +7,7 @@ window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onDeleteLocation = onDeleteLocation;
+window.onMapClick = onMapClick;
 
 
 function onInit() {
@@ -15,6 +16,17 @@ function onInit() {
         .then(renderLocation)
         .catch(() => console.log('Error: cannot init map'));
         
+}
+
+function onMapClick(map) {
+    var lat = map.latLng.lat();
+    var lng = map.latLng.lng();
+    let CurrPosition = { lat, lng }
+    mapService.panTo(CurrPosition)
+    mapService.addMarker()
+    mapService.getLocationClicked(CurrPosition) 
+    .then(renderLocation)
+    
 }
 
 
@@ -62,8 +74,6 @@ function onGoLocation(locationId){
 function onDeleteLocation(locationId){
     locService.removeLoc(locationId)
     renderLocation()
-    
-
 }
 
 function renderLocation(locations){
